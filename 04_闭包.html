@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 所谓的闭包,现在已经基本不使用了
+        // 只有一些老项目中,或者是极其特殊的情况中,才会使用
+        // 主要还是为了面试
+
+        // 什么是闭包
+        //   概念:  是js中,函数的一种高级应用方式(函数作为参数或返回值就是高阶函数)
+        //   作用:  调用函数中局部作用域变量,在函数之外,可以直接使用
+        //   正常情况下,只能使用 return 返回 局部作用域变量的数值 
+        //   要想调用使用 int 就必须要使用 闭包
+        //   return 只能返回一个数值,
+        //   使用闭包的形式,可以返回调用,多个数值数据
+
+        // 闭包的执行条件
+        //   要使用执行闭包,必须要有3个条件,缺一不可
+        //     1, 在函数A中,直接返回一个函数B
+        //          函数A的返回值是另一个函数B
+        //     2, 函数B中,调用使用函数A中的局部作用域变量
+        //     3, 函数A 外部 有一个变量 存储接收 函数B
+
+
+        // function fun(){
+        //     // 定义在函数内部的局部作用域变量
+        //     var int1 = 100;
+        //     // 通过 return 返回的 int 中存储的数值100
+        //     // 但是这个变量 int 仍然不能被使用
+        //     return int1;
+        // }
+
+        // fun();
+
+        // 在函数外部,无法直接使用局部作用域变量
+        // console.log(int1);
+
+
+        // 闭包的写法
+
+        // 定义一个函数A
+        function funA(){
+            // 函数A中有一个局部作用域变量
+            var int21 = 100;
+            var int22 = 200;
+            var int23 = 300;
+
+            // 函数A,返回值,是另一个函数B
+            // 函数A的执行结果,返回值就是函数B
+            // return function funB(){
+            //     // 函数B中,调用执行了函数A中的变量 int3
+            //     var int31 = int21;
+            //     var int32 = int22;
+            //     var int33 = int23;
+            //     console.log(int31,int32,int33);
+            // };
+
+            // (也可以使用上面的方式 不过funB没用)
+            return function (){
+                // 函数B中,调用执行了函数A中的变量 int3
+                var int31 = int21;
+                var int32 = int22;
+                var int33 = int23;
+                console.log(int31,int32,int33);
+            }
+        }
+
+        // 有一个外部的变量,来存储函数B
+        // f 中 存储的是 funA 函数的执行结果,也就是 函数B
+
+        // funA() 的执行结果是 function funB(){}
+        // 等于 是 一个匿名函数 const f = function funB(){}
+        // f 中 存储的是 funB() 的 内存地址
+        // f() 就是 调用的  funB() 这个函数
+        const f = funA();
+
+        // 此时 执行 f() , 就是通过存储的地址, 执行函数B()
+        f();
+
+        // 此时,int2变量,在函数外部仍然无法直接使用
+        // 但是int2的数值数据,可以在函数外部直接使用
+        console.log(int21);
+
+    </script>
+</body>
+</html>
